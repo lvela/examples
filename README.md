@@ -9,4 +9,4 @@ Examples for [Yeah](https://github.com/yeahrb/yeah), the practical Ruby video ga
 3. Change into one of the example directories.
 4. `bundle install`
 5. `yeah serve`
-6. Visit http://localhost:1234 to play.
+6. Visit [http://localhost:1234](http://localhost:1234) to play.
