@@ -1,5 +1,5 @@
 class AsteroidsGame < Game
-  BG_COLOR = C['#001133']
+  BG_COLOR = C['#071e26']
 
   attr_accessor :input, :things
 
@@ -32,6 +32,7 @@ class AsteroidsGame < Game
 
     display.fill_color = BG_COLOR
     display.clear
+    display.image(Image.new('images/ta-bg.jpg'), V[0,0])
 
     @things.each do |t|
       next if t.nil? # TODO: obviate w/ sturdier solution

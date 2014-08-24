@@ -10,6 +10,7 @@ class Asteroid < Thing
     @rotation = 0
     @rotation_speed = Math.rand - 0.5
     @velocity = V[Math.rand * 50 - 25, Math.rand * 50 - 25]
+    @image = Image.new('images/logo.png')
   end
 
   def update(elapsed, game)
@@ -57,7 +58,14 @@ class Asteroid < Thing
   def draw(display)
     display.stroke_color = COLOR
 
-    draw_polygon(display, @position, @rotation, @side_count, radius)
+    display.push
+      display.translate(@position)
+      #display.scale(V[Math.sin(@rotation), Math.sin(@rotation)])
+      display.scale(V[(@side_count-3)/10.0, (@side_count-3)/10])
+      display.rotate(@rotation)
+      display.image_cropped(@image, V[-67.5, -40], V[0, 0], V[270, 233])
+    display.pop
+    #draw_polygon(display, @position, @rotation, @side_count, radius)
   end
 
   private
