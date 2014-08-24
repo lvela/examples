@@ -1,3 +1,6 @@
+require 'math'
+require 'things'
+
 class AsteroidsGame < Game
   BG_COLOR = C['#001133']
 

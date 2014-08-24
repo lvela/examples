@@ -1,3 +1,6 @@
+require 'math'
+require 'owl'
+
 class RandomGame < Game
   attr_reader :image, :position
 
