@@ -8,8 +8,8 @@ class Asteroid < Thing
     @side_count = args.fetch(:side_count)
 
     @rotation = 0
-    @rotation_speed = Math.rand - 0.5
-    @velocity = V[Math.rand * 50 - 25, Math.rand * 50 - 25]
+    @rotation_speed = rand - 0.5 # random rotation speed
+    @velocity = V[rand(50) - 25, rand(50) - 25] # random velocity
   end
 
   def update(elapsed, game)
@@ -22,6 +22,7 @@ class Asteroid < Thing
     @rotation += @rotation_speed * elapsed
   end
 
+  # Wrap to other edge of space as needed.
   def wrap(game)
     if (left_overlap = -@position.x - radius) > 0
       @position.x = game.display.width - left_overlap + radius
@@ -36,13 +37,16 @@ class Asteroid < Thing
     end
   end
 
+  # Distance-based collision detection
   def colliding?(point)
     @position.distance_to(point) < radius
   end
 
   def die(game)
+    # Remove self from game.
     game.things.reject! { |t| t == self }
 
+    # Spawn two lesser asteroids in place.
     if @side_count > 3
       game.things << Asteroid.new(position: @position,
                                   side_count: @side_count - 1,
@@ -56,16 +60,17 @@ class Asteroid < Thing
 
   def draw(display)
     display.stroke_color = COLOR
-
     draw_polygon(display, @position, @rotation, @side_count, radius)
   end
 
   private
 
+  # The more sides, the larger the radius.
   def radius
     @side_count * RADIUS_PER_SIDE
   end
 
+  # Draw a regular polygon.
   def draw_polygon(d, position, rotation, side_count, radius)
     angle_per = Math::PI * 2 / side_count
 

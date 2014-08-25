@@ -1,3 +1,4 @@
+# Base class for all game things.
 class Thing
   attr_accessor :position
 

@@ -2,6 +2,10 @@ class Owl
   SPEED = 50
   ROTATE_SPEED = 2.5
 
+  CROP_SIZE = V[135, 80]
+  CROP_POSITION = V[80, 70]
+  CENTER_POSITION = CROP_SIZE / -2
+
   def initialize
     @image = Image.new('images/brown-owl.jpg')
     @position = V[0, 0]
@@ -31,10 +35,17 @@ class Owl
 
   def draw(d)
     d.push
+      # Move "pen" by position.
       d.translate(@position)
+
+      # Scale "pen" up and down as we rotate over time.
       d.scale(V[Math.sin(@rotation) + 2, Math.sin(@rotation) + 2])
+
+      # Rotate "pen" by rotation.
       d.rotate(@rotation)
-      d.image_cropped(@image, V[-67.5, -40], V[80, 70], V[135, 80])
+
+      # Draw the eyes part of image, centered on pen.
+      d.image_cropped(@image, CENTER_POSITION, CROP_POSITION, CROP_SIZE)
     d.pop
   end
 end

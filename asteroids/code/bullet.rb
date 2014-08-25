@@ -20,9 +20,11 @@ class Bullet < Thing
   end
 
   def move(elapsed)
+    # Move along direction.
     @position.along! @direction, SPEED * elapsed
   end
 
+  # Wrap to other edge of space as needed.
   def wrap(game)
     half_size = @size / 2
 
@@ -41,15 +43,21 @@ class Bullet < Thing
 
   def collide(game)
     game.things.each do |thing|
+      # If collided with something collidable...
       if thing.respond_to?(:colliding?) && thing.colliding?(@position)
+
+        # Kill said collidable.
         thing.die(game)
 
+        # Remove self from game.
         game.things.reject! { |t| t == self }
+
         return
       end
     end
   end
 
+  # Self-destruct after an amount of time.
   def self_destruct(elapsed, game)
     @age += elapsed
 
@@ -63,7 +71,7 @@ class Bullet < Thing
 
     d.push
       d.translate(@position)
-      d.rotate(0.785 + @direction)
+      d.rotate(0.785 + @direction) # turn square into diamond, facing direction
       d.stroke_rectangle(@size / -2, @size)
     d.pop
   end

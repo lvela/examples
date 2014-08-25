@@ -1,5 +1,6 @@
+# Player ship.
 class Ship < Thing
-  COLOR = C['#ffff88']
+  COLOR = C['#ff8']
   SPEED = 5
   ROTATE_SPEED = 5
 
@@ -20,16 +21,19 @@ class Ship < Thing
   end
 
   def control(elapsed, game)
-    @direction += ROTATE_SPEED * elapsed if game.input[:right]
-    @direction -= ROTATE_SPEED * elapsed if game.input[:left]
-    @thrusting = game.input[:up]
+    # Movement control.
+    @direction += ROTATE_SPEED * elapsed if game.keyboard.pressing? :right
+    @direction -= ROTATE_SPEED * elapsed if game.keyboard.pressing? :left
+    @thrusting = game.keyboard.pressing? :up
 
-    if game.input[:shoot]
+    # Weapon control.
+    if game.keyboard.pressed? :z
       game.things << Bullet.new(position: @position, direction: @direction)
     end
   end
 
   def move(elapsed, game)
+    # If thrusting, add to velocity along direction.
     if @thrusting
       @velocity.along! @direction, SPEED * elapsed
     end
@@ -37,6 +41,7 @@ class Ship < Thing
     @position += @velocity
   end
 
+  # Wrap to other edge of space as needed (there is no escape).
   def wrap(game)
     half_size = @size / 2
 
@@ -55,10 +60,15 @@ class Ship < Thing
 
   def collide(game)
     game.things.each do |thing|
+      # If collided with something collidable..
       if thing.respond_to?(:colliding?) && thing.colliding?(@position)
+
+        # Kill said collidable.
         thing.die(game)
 
+        # Reset self.
         initialize(@args)
+
         return
       end
     end
