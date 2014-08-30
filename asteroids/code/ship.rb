@@ -3,6 +3,8 @@ class Ship < Thing
   COLOR = C['#ff8']
   SPEED = 5
   ROTATE_SPEED = 5
+  SHOOT_SOUND = Sound['shoot.wav']
+  DEATH_SOUND = Sound['explode.wav']
 
   def initialize(args)
     super
@@ -28,6 +30,8 @@ class Ship < Thing
 
     # Weapon control.
     if game.keyboard.pressed? :z
+      SHOOT_SOUND.play
+
       game.things << Bullet.new(position: @position, direction: @direction)
     end
   end
@@ -65,6 +69,8 @@ class Ship < Thing
 
         # Kill said collidable.
         thing.die(game)
+
+        DEATH_SOUND.play
 
         # Reset self.
         initialize(@args)

@@ -1,6 +1,7 @@
 class Asteroid < Thing
   COLOR = C['#ffffff']
   RADIUS_PER_SIDE = 8
+  DEATH_SOUND = Sound['split.wav']
 
   def initialize(args)
     super
@@ -45,6 +46,8 @@ class Asteroid < Thing
   def die(game)
     # Remove self from game.
     game.things.reject! { |t| t == self }
+
+    DEATH_SOUND.play
 
     # Spawn two lesser asteroids in place.
     if @side_count > 3
