@@ -1,6 +1,9 @@
 class Asteroid < Thing
   COLOR = C['#ffffff']
   RADIUS_PER_SIDE = 8
+  BADGE_X = 741
+  BADGE_Y = 640
+  BADGE_SIZE = V[BADGE_X, BADGE_Y]
 
   def initialize(args)
     super
@@ -10,7 +13,7 @@ class Asteroid < Thing
     @rotation = 0
     @rotation_speed = Math.rand - 0.5
     @velocity = V[Math.rand * 50 - 25, Math.rand * 50 - 25]
-    @image = Image.new('images/logo.png')
+    @image = Image.new('images/trueability_badge.png')
   end
 
   def update(elapsed, game)
@@ -60,18 +63,17 @@ class Asteroid < Thing
 
     display.push
       display.translate(@position)
-      #display.scale(V[Math.sin(@rotation), Math.sin(@rotation)])
-      display.scale(V[(@side_count-3)/10.0, (@side_count-3)/10])
+      display.scale(V[(@side_count-3)/15.0, (@side_count-3)/15.0])
+      
       display.rotate(@rotation)
-      display.image_cropped(@image, V[-67.5, -40], V[0, 0], V[270, 233])
+      display.image_cropped(@image, V[0, 0], V[0, 0], BADGE_SIZE)
     display.pop
-    #draw_polygon(display, @position, @rotation, @side_count, radius)
   end
 
   private
 
   def radius
-    @side_count * RADIUS_PER_SIDE
+    ((BADGE_X+BADGE_Y/2.0) * ((@side_count-3)/15.0)) / 2.0
   end
 
   def draw_polygon(d, position, rotation, side_count, radius)
