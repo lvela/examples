@@ -8,7 +8,7 @@ class Bullet < Thing
 
     @direction = args.fetch(:direction)
 
-    @size = V[8, 8]
+    @size = V[4, 4]
     @age = 0
   end
 
@@ -67,7 +67,7 @@ class Bullet < Thing
   end
 
   def draw(d)
-    d.stroke_color = Ship::COLOR
+    d.stroke_color = C['#fff']
 
     d.push
       d.translate(@position)

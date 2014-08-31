@@ -9,7 +9,7 @@ class Ship < Thing
   def initialize(args)
     super
 
-    @size = V[32, 32]
+    @size = V[50, 52]
     @velocity = V[0, 0]
     @direction = Math::PI * 1.5
     @args = args
@@ -88,22 +88,7 @@ class Ship < Thing
       d.rotate @direction + Math::PI / 2
       d.translate -@size / 2
 
-      d.begin_shape
-        d.move_to V[@size.x / 2, 0]
-        d.line_to V[@size.x, @size.y]
-        d.line_to V[@size.x / 2, @size.y / 2]
-        d.line_to V[0, @size.y]
-        d.line_to V[@size.x / 2, 0]
-      d.end_shape
-      d.stroke_shape
-
-      if @thrusting
-        d.begin_shape
-          d.move_to V[@size.x / 2, @size.y / 2]
-          d.line_to V[@size.x / 2, @size.y]
-        d.end_shape
-        d.stroke_shape
-      end
+      d.image(Image.new('images/tux.png'), V[0,0])
     d.pop
   end
 end
