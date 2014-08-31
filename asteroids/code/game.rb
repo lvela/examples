@@ -2,7 +2,7 @@ require 'math'
 require 'things'
 
 class AsteroidsGame < Game
-  BG_COLOR = C['#013']
+  BG_COLOR = C['#071e26']
 
   attr_accessor :things
 
@@ -30,6 +30,7 @@ class AsteroidsGame < Game
     # Clear with background color
     display.fill_color = BG_COLOR
     display.clear
+    display.image(Image.new('images/ta-bg.jpg'), V[0,0])
 
     # Update & draw all things.
     @things.each do |t|
